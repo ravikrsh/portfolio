@@ -1,0 +1,830 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>COBALT — UX Case Study · Ravi Krishna S</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --teal:     #1A5F7A;
+    --teal-mid: #2A7F9A;
+    --teal-lt:  #D4EEF5;
+    --teal-xlt: #EEF8FB;
+    --ink:      #0F1923;
+    --ink-mid:  #3D4F5C;
+    --ink-lt:   #7A8F9C;
+    --cream:    #F7F4EF;
+    --white:    #FFFFFF;
+    --accent:   #E8612A;
+    --gold:     #C8973A;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--cream);
+    color: var(--ink);
+    font-size: 16px;
+    line-height: 1.7;
+    overflow-x: hidden;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 20px 60px;
+    background: rgba(247,244,239,0.92);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(26,95,122,0.1);
+  }
+  .nav-logo {
+    font-family: 'DM Serif Display', serif;
+    font-size: 18px; color: var(--teal); letter-spacing: 0.02em;
+  }
+  .nav-links { display: flex; gap: 36px; }
+  .nav-links a {
+    font-size: 13px; font-weight: 500; color: var(--ink-mid);
+    text-decoration: none; letter-spacing: 0.08em; text-transform: uppercase;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--teal); }
+
+  /* ── SECTIONS ── */
+  section { padding: 100px 0; }
+  .container { max-width: 900px; margin: 0 auto; padding: 0 40px; }
+  .container-wide { max-width: 1100px; margin: 0 auto; padding: 0 40px; }
+
+  /* ── HERO ── */
+  .hero {
+    min-height: 100vh;
+    display: grid; grid-template-columns: 1fr 1fr;
+    align-items: center;
+    padding: 0;
+    background: var(--ink);
+    position: relative; overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute; inset: 0;
+    background:
+      radial-gradient(ellipse 60% 80% at 80% 50%, rgba(26,95,122,0.35) 0%, transparent 70%),
+      radial-gradient(ellipse 40% 40% at 20% 80%, rgba(200,151,58,0.12) 0%, transparent 60%);
+  }
+  .hero-left {
+    padding: 120px 60px 120px 80px;
+    position: relative; z-index: 2;
+  }
+  .hero-tag {
+    display: inline-block;
+    font-size: 11px; font-weight: 500; letter-spacing: 0.15em; text-transform: uppercase;
+    color: var(--teal-mid); border: 1px solid rgba(42,127,154,0.4);
+    padding: 6px 14px; border-radius: 2px; margin-bottom: 32px;
+  }
+  .hero h1 {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(42px, 5vw, 64px);
+    line-height: 1.1; color: var(--white);
+    margin-bottom: 24px;
+  }
+  .hero h1 em {
+    font-style: italic; color: var(--teal-mid);
+  }
+  .hero-desc {
+    font-size: 17px; font-weight: 300; color: rgba(255,255,255,0.65);
+    max-width: 420px; line-height: 1.8; margin-bottom: 48px;
+  }
+  .hero-meta {
+    display: flex; gap: 32px; flex-wrap: wrap;
+  }
+  .hero-meta-item { }
+  .hero-meta-label {
+    font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase;
+    color: var(--ink-lt); margin-bottom: 4px;
+  }
+  .hero-meta-value {
+    font-size: 14px; font-weight: 500; color: rgba(255,255,255,0.85);
+  }
+  .hero-right {
+    height: 100vh; position: relative; z-index: 2;
+    display: flex; align-items: center; justify-content: center;
+    padding: 80px 80px 80px 20px;
+  }
+  .device-frame {
+    width: 100%; max-width: 460px;
+    background: #1A2730;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 40px 80px rgba(0,0,0,0.5), 0 0 0 1px rgba(255,255,255,0.06);
+    animation: floatUp 0.9s cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+  @keyframes floatUp {
+    from { opacity: 0; transform: translateY(40px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  .device-bar {
+    height: 36px; background: #131E26;
+    display: flex; align-items: center; padding: 0 16px; gap: 8px;
+  }
+  .dot { width: 10px; height: 10px; border-radius: 50%; }
+  .dot-r { background: #FF5F57; } .dot-y { background: #FEBC2E; } .dot-g { background: #28C840; }
+  .device-screen { padding: 20px; }
+
+  /* Dashboard wireframe */
+  .dash-header {
+    display: flex; align-items: center; justify-content: space-between;
+    margin-bottom: 16px;
+  }
+  .dash-logo-bar { display: flex; align-items: center; gap: 10px; }
+  .dash-logo-sq { width: 28px; height: 28px; border-radius: 4px; background: var(--teal); }
+  .dash-logo-text { font-size: 12px; font-weight: 600; color: rgba(255,255,255,0.9); letter-spacing: 0.05em; }
+  .dash-avatar { width: 28px; height: 28px; border-radius: 50%; background: #2A3F4D; border: 2px solid var(--teal); }
+
+  .xp-bar-wrap { margin-bottom: 16px; }
+  .xp-label { display: flex; justify-content: space-between; margin-bottom: 6px; }
+  .xp-label span { font-size: 10px; color: rgba(255,255,255,0.45); }
+  .xp-label strong { font-size: 10px; color: var(--teal-mid); }
+  .xp-track { height: 6px; background: #1E2F3A; border-radius: 3px; }
+  .xp-fill { height: 6px; width: 68%; background: linear-gradient(90deg, var(--teal), var(--teal-mid)); border-radius: 3px; }
+
+  .dash-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 14px; }
+  .dash-card {
+    background: #1E2F3A; border-radius: 8px; padding: 12px;
+    border: 1px solid rgba(42,127,154,0.15);
+  }
+  .dash-card-label { font-size: 9px; text-transform: uppercase; letter-spacing: 0.1em; color: rgba(255,255,255,0.35); margin-bottom: 6px; }
+  .dash-card-val { font-size: 20px; font-weight: 700; color: var(--white); }
+  .dash-card-sub { font-size: 9px; color: var(--teal-mid); margin-top: 2px; }
+
+  .badge-row { display: flex; gap: 8px; margin-bottom: 14px; }
+  .badge {
+    width: 36px; height: 36px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 14px;
+  }
+  .badge-active { background: var(--teal); box-shadow: 0 0 12px rgba(26,95,122,0.5); }
+  .badge-locked { background: #1E2F3A; border: 1px solid #2A3F4D; opacity: 0.5; }
+  .badge-label { font-size: 9px; color: rgba(255,255,255,0.35); margin-top: 4px; text-align: center; width: 36px; }
+
+  .leaderboard { background: #1E2F3A; border-radius: 8px; padding: 10px; border: 1px solid rgba(42,127,154,0.15); }
+  .lb-title { font-size: 9px; text-transform: uppercase; letter-spacing: 0.1em; color: rgba(255,255,255,0.35); margin-bottom: 8px; }
+  .lb-row { display: flex; align-items: center; gap: 8px; padding: 5px 0; border-bottom: 1px solid rgba(255,255,255,0.04); }
+  .lb-row:last-child { border-bottom: none; }
+  .lb-rank { font-size: 10px; font-weight: 700; color: var(--teal-mid); width: 16px; }
+  .lb-rank.gold { color: var(--gold); }
+  .lb-av { width: 20px; height: 20px; border-radius: 50%; background: #2A3F4D; }
+  .lb-name { font-size: 10px; color: rgba(255,255,255,0.65); flex: 1; }
+  .lb-pts { font-size: 10px; font-weight: 600; color: rgba(255,255,255,0.85); }
+
+  /* ── STAT ROW ── */
+  .stat-row {
+    background: var(--teal);
+    padding: 60px 0;
+  }
+  .stat-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr);
+    gap: 1px; background: rgba(255,255,255,0.15);
+    border: 1px solid rgba(255,255,255,0.15);
+  }
+  .stat-item {
+    background: var(--teal);
+    padding: 48px 40px; text-align: center;
+  }
+  .stat-num {
+    font-family: 'DM Serif Display', serif;
+    font-size: 52px; line-height: 1; color: var(--white);
+    margin-bottom: 12px;
+  }
+  .stat-num sup { font-size: 28px; vertical-align: super; }
+  .stat-label {
+    font-size: 13px; color: rgba(255,255,255,0.65); font-weight: 300;
+    max-width: 180px; margin: 0 auto; line-height: 1.5;
+  }
+
+  /* ── SECTION LABELS ── */
+  .section-eyebrow {
+    display: flex; align-items: center; gap: 16px; margin-bottom: 20px;
+  }
+  .eyebrow-num {
+    font-size: 11px; font-weight: 700; letter-spacing: 0.2em;
+    color: var(--teal); text-transform: uppercase;
+  }
+  .eyebrow-line { flex: 0 0 40px; height: 1px; background: var(--teal); opacity: 0.4; }
+  .eyebrow-text {
+    font-size: 11px; font-weight: 500; letter-spacing: 0.12em;
+    color: var(--ink-lt); text-transform: uppercase;
+  }
+
+  h2 {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(28px, 4vw, 42px); line-height: 1.2;
+    color: var(--ink); margin-bottom: 24px;
+  }
+  h2 em { font-style: italic; color: var(--teal); }
+
+  p { color: var(--ink-mid); font-weight: 300; margin-bottom: 16px; font-size: 16px; line-height: 1.8; }
+  p:last-child { margin-bottom: 0; }
+
+  /* ── PROBLEM CALLOUT ── */
+  .problem-callout {
+    margin: 48px 0;
+    padding: 40px 48px;
+    border-left: 4px solid var(--teal);
+    background: var(--teal-xlt);
+  }
+  .problem-callout p {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(20px, 2.5vw, 28px);
+    font-style: italic; color: var(--teal);
+    font-weight: normal; line-height: 1.5;
+    margin: 0;
+  }
+
+  /* ── PROCESS FLOW ── */
+  .process-flow {
+    display: grid; grid-template-columns: repeat(5, 1fr);
+    gap: 0; margin: 48px 0; position: relative;
+  }
+  .process-flow::before {
+    content: '';
+    position: absolute; top: 28px; left: 10%; right: 10%;
+    height: 2px; background: linear-gradient(90deg, var(--teal-lt), var(--teal), var(--teal-lt));
+    z-index: 0;
+  }
+  .process-step { text-align: center; position: relative; z-index: 1; padding: 0 8px; }
+  .process-circle {
+    width: 56px; height: 56px; border-radius: 50%;
+    background: var(--white); border: 2px solid var(--teal);
+    display: flex; align-items: center; justify-content: center;
+    margin: 0 auto 16px; font-size: 18px;
+    box-shadow: 0 4px 16px rgba(26,95,122,0.15);
+    transition: transform 0.2s;
+  }
+  .process-step:hover .process-circle { transform: scale(1.1); }
+  .process-circle.active { background: var(--teal); }
+  .process-step-title { font-size: 12px; font-weight: 600; color: var(--ink); margin-bottom: 6px; line-height: 1.3; }
+  .process-step-desc { font-size: 11px; color: var(--ink-lt); line-height: 1.4; font-weight: 400; }
+
+  /* ── GAMIFICATION SECTION ── */
+  .section-split {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: start;
+  }
+  .sketch-area {
+    background: var(--white); border-radius: 4px;
+    padding: 32px;
+    box-shadow: 0 8px 32px rgba(15,25,35,0.08);
+    border: 1px solid rgba(26,95,122,0.08);
+    position: relative;
+  }
+  .sketch-label {
+    position: absolute; top: -12px; left: 24px;
+    background: var(--teal); color: var(--white);
+    font-size: 10px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase;
+    padding: 4px 12px; border-radius: 2px;
+  }
+  /* Simulated sketch */
+  .sketch-inner {
+    border: 2px dashed rgba(26,95,122,0.2); border-radius: 4px;
+    padding: 24px; min-height: 280px;
+    display: flex; flex-direction: column; gap: 20px;
+  }
+  .sketch-row { display: flex; gap: 16px; align-items: center; }
+  .sketch-box {
+    border: 2px solid rgba(26,95,122,0.3); border-radius: 4px;
+    font-family: 'DM Serif Display', serif; font-style: italic;
+    font-size: 13px; color: var(--ink-mid); padding: 10px 14px;
+    background: rgba(212,238,245,0.3);
+  }
+  .sketch-arrow { color: var(--teal); font-size: 18px; }
+  .sketch-note {
+    font-size: 11px; color: var(--ink-lt); font-style: italic;
+    border-left: 2px solid var(--teal-lt); padding-left: 10px;
+  }
+
+  .annotation-list { list-style: none; display: flex; flex-direction: column; gap: 20px; }
+  .annotation-item { display: flex; gap: 16px; align-items: flex-start; }
+  .annotation-icon {
+    flex: 0 0 40px; height: 40px; border-radius: 50%;
+    background: var(--teal-xlt); border: 1px solid var(--teal-lt);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 16px;
+  }
+  .annotation-body { }
+  .annotation-title { font-size: 14px; font-weight: 600; color: var(--ink); margin-bottom: 4px; }
+  .annotation-desc { font-size: 13px; color: var(--ink-mid); font-weight: 300; line-height: 1.6; margin: 0; }
+
+  /* ── VENDOR SECTION ── */
+  .vendor-bg { background: var(--ink); }
+  .vendor-bg h2 { color: var(--white); }
+  .vendor-bg p { color: rgba(255,255,255,0.55); }
+  .vendor-bg .section-eyebrow .eyebrow-num { color: var(--teal-mid); }
+  .vendor-bg .eyebrow-text { color: rgba(255,255,255,0.3); }
+
+  .vendor-flow {
+    display: flex; align-items: center; justify-content: center;
+    gap: 0; margin: 48px 0; flex-wrap: wrap;
+  }
+  .vendor-node {
+    background: #1A2730; border: 1px solid rgba(42,127,154,0.3);
+    border-radius: 8px; padding: 20px 24px; text-align: center;
+    min-width: 140px;
+  }
+  .vendor-node-icon { font-size: 24px; margin-bottom: 8px; }
+  .vendor-node-title { font-size: 13px; font-weight: 600; color: var(--white); margin-bottom: 4px; }
+  .vendor-node-sub { font-size: 11px; color: rgba(255,255,255,0.35); line-height: 1.4; }
+  .vendor-arrow {
+    font-size: 20px; color: var(--teal-mid); padding: 0 12px;
+    display: flex; flex-direction: column; align-items: center; gap: 4px;
+  }
+  .vendor-arrow-label { font-size: 9px; color: rgba(255,255,255,0.25); letter-spacing: 0.1em; text-transform: uppercase; }
+
+  .vendor-principles {
+    display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; margin-top: 48px;
+  }
+  .vendor-principle {
+    background: #1A2730; border: 1px solid rgba(42,127,154,0.15);
+    border-radius: 8px; padding: 24px;
+  }
+  .vp-num { font-family: 'DM Serif Display', serif; font-size: 32px; color: rgba(26,95,122,0.4); margin-bottom: 8px; }
+  .vp-title { font-size: 14px; font-weight: 600; color: var(--white); margin-bottom: 8px; }
+  .vp-desc { font-size: 13px; color: rgba(255,255,255,0.4); line-height: 1.6; margin: 0; font-weight: 300; }
+
+  /* ── OUTCOME ── */
+  .outcome-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: center; margin-top: 48px; }
+  .outcome-metrics { display: flex; flex-direction: column; gap: 24px; }
+  .outcome-metric {
+    padding: 28px 32px;
+    background: var(--white); border-radius: 4px;
+    border-left: 4px solid var(--teal);
+    box-shadow: 0 4px 20px rgba(15,25,35,0.06);
+    display: flex; align-items: center; gap: 24px;
+  }
+  .om-num {
+    font-family: 'DM Serif Display', serif;
+    font-size: 40px; color: var(--teal); line-height: 1; white-space: nowrap;
+  }
+  .om-label { font-size: 14px; color: var(--ink-mid); font-weight: 300; line-height: 1.5; }
+
+  .reflection-list { list-style: none; display: flex; flex-direction: column; gap: 20px; }
+  .reflection-item { display: flex; gap: 16px; }
+  .r-bullet {
+    flex: 0 0 8px; height: 8px; border-radius: 50%;
+    background: var(--teal); margin-top: 8px;
+  }
+  .r-text { font-size: 15px; color: var(--ink-mid); font-weight: 300; line-height: 1.7; }
+
+  /* ── NEXT PROJECT ── */
+  .next-section {
+    background: var(--ink); padding: 80px 0; text-align: center;
+  }
+  .next-label { font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--ink-lt); margin-bottom: 16px; }
+  .next-title {
+    font-family: 'DM Serif Display', serif;
+    font-size: 36px; color: var(--white); margin-bottom: 32px;
+  }
+  .next-title em { font-style: italic; color: var(--teal-mid); }
+  .btn {
+    display: inline-flex; align-items: center; gap: 10px;
+    background: var(--teal); color: var(--white);
+    padding: 16px 32px; border-radius: 2px;
+    font-size: 13px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase;
+    text-decoration: none; transition: background 0.2s, transform 0.2s;
+  }
+  .btn:hover { background: var(--teal-mid); transform: translateY(-2px); }
+
+  /* ── FOOTER ── */
+  footer {
+    background: #080E13; padding: 32px 60px;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .footer-name {
+    font-family: 'DM Serif Display', serif; font-size: 16px;
+    color: rgba(255,255,255,0.4);
+  }
+  .footer-links { display: flex; gap: 24px; }
+  .footer-links a { font-size: 12px; color: rgba(255,255,255,0.25); text-decoration: none; letter-spacing: 0.08em; transition: color 0.2s; }
+  .footer-links a:hover { color: var(--teal-mid); }
+
+  /* ── SCROLL ANIMATIONS ── */
+  .reveal {
+    opacity: 0; transform: translateY(28px);
+    transition: opacity 0.7s cubic-bezier(0.16,1,0.3,1), transform 0.7s cubic-bezier(0.16,1,0.3,1);
+  }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+  .reveal-delay-1 { transition-delay: 0.1s; }
+  .reveal-delay-2 { transition-delay: 0.2s; }
+  .reveal-delay-3 { transition-delay: 0.3s; }
+  .reveal-delay-4 { transition-delay: 0.4s; }
+
+  /* ── NOTE BAR ── */
+  .note-bar {
+    background: var(--teal-xlt); border: 1px solid var(--teal-lt);
+    border-radius: 4px; padding: 14px 20px; margin-top: 40px;
+    display: flex; gap: 12px; align-items: flex-start;
+  }
+  .note-icon { font-size: 16px; flex-shrink: 0; margin-top: 1px; }
+  .note-text { font-size: 13px; color: var(--teal); font-weight: 400; line-height: 1.6; margin: 0; }
+
+  @media (max-width: 768px) {
+    nav { padding: 16px 24px; }
+    .nav-links { display: none; }
+    .hero { grid-template-columns: 1fr; }
+    .hero-right { display: none; }
+    .hero-left { padding: 120px 24px 80px; }
+    .container, .container-wide { padding: 0 24px; }
+    section { padding: 72px 0; }
+    .stat-grid, .process-flow, .section-split,
+    .vendor-principles, .outcome-grid { grid-template-columns: 1fr; }
+    .process-flow::before { display: none; }
+    .vendor-flow { gap: 12px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">Ravi Krishna S</div>
+  <div class="nav-links">
+    <a href="#problem">Problem</a>
+    <a href="#process">Process</a>
+    <a href="#gamification">Design</a>
+    <a href="#outcome">Outcome</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-left">
+    <div class="hero-tag">UX Case Study · 2016 – 2020</div>
+    <h1>COBALT —<br><em>Gamified</em><br>Learning Platform</h1>
+    <p class="hero-desc">Redesigning enterprise certification training from a compliance obligation into an experience people actually wanted to return to.</p>
+    <div class="hero-meta">
+      <div class="hero-meta-item">
+        <div class="hero-meta-label">My Role</div>
+        <div class="hero-meta-value">UX Design Lead</div>
+      </div>
+      <div class="hero-meta-item">
+        <div class="hero-meta-label">Company</div>
+        <div class="hero-meta-value">Cognizant</div>
+      </div>
+      <div class="hero-meta-item">
+        <div class="hero-meta-label">Platform</div>
+        <div class="hero-meta-value">Enterprise Learning</div>
+      </div>
+    </div>
+  </div>
+  <div class="hero-right">
+    <div class="device-frame">
+      <div class="device-bar">
+        <div class="dot dot-r"></div>
+        <div class="dot dot-y"></div>
+        <div class="dot dot-g"></div>
+      </div>
+      <div class="device-screen">
+        <div class="dash-header">
+          <div class="dash-logo-bar">
+            <div class="dash-logo-sq"></div>
+            <div class="dash-logo-text">COBALT</div>
+          </div>
+          <div class="dash-avatar"></div>
+        </div>
+        <div class="xp-bar-wrap">
+          <div class="xp-label"><span>Level 4 · Java Developer</span><strong>2,340 / 3,000 XP</strong></div>
+          <div class="xp-track"><div class="xp-fill"></div></div>
+        </div>
+        <div class="dash-grid">
+          <div class="dash-card">
+            <div class="dash-card-label">Modules Done</div>
+            <div class="dash-card-val">12</div>
+            <div class="dash-card-sub">↑ 3 this week</div>
+          </div>
+          <div class="dash-card">
+            <div class="dash-card-label">Cert. Readiness</div>
+            <div class="dash-card-val">78%</div>
+            <div class="dash-card-sub">On track</div>
+          </div>
+        </div>
+        <div style="font-size:9px;text-transform:uppercase;letter-spacing:.1em;color:rgba(255,255,255,.3);margin-bottom:8px;">Your Badges</div>
+        <div style="display:flex;gap:10px;margin-bottom:14px;flex-wrap:wrap;">
+          <div style="text-align:center">
+            <div class="badge badge-active">🔥</div>
+            <div class="badge-label">Streak</div>
+          </div>
+          <div style="text-align:center">
+            <div class="badge badge-active">⚡</div>
+            <div class="badge-label">Fast Pass</div>
+          </div>
+          <div style="text-align:center">
+            <div class="badge badge-locked">🏆</div>
+            <div class="badge-label">Certified</div>
+          </div>
+          <div style="text-align:center">
+            <div class="badge badge-locked">🌟</div>
+            <div class="badge-label">Top 10</div>
+          </div>
+        </div>
+        <div class="leaderboard">
+          <div class="lb-title">Team Leaderboard</div>
+          <div class="lb-row"><div class="lb-rank gold">1</div><div class="lb-av"></div><div class="lb-name">Priya M.</div><div class="lb-pts">3,120 pts</div></div>
+          <div class="lb-row"><div class="lb-rank gold">2</div><div class="lb-av"></div><div class="lb-name">Arjun K.</div><div class="lb-pts">2,890 pts</div></div>
+          <div class="lb-row" style="background:rgba(26,95,122,0.12);border-radius:4px;"><div class="lb-rank" style="color:#fff">3</div><div class="lb-av" style="border:2px solid var(--teal)"></div><div class="lb-name" style="color:rgba(255,255,255,.9)">You</div><div class="lb-pts" style="color:var(--teal-mid)">2,340 pts</div></div>
+          <div class="lb-row"><div class="lb-rank">4</div><div class="lb-av"></div><div class="lb-name">Sneha R.</div><div class="lb-pts">2,100 pts</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- STATS -->
+<div class="stat-row">
+  <div class="container">
+    <div class="stat-grid">
+      <div class="stat-item reveal">
+        <div class="stat-num">30<sup>%</sup></div>
+        <div class="stat-label">Improvement in first-time certification pass rates</div>
+      </div>
+      <div class="stat-item reveal reveal-delay-1">
+        <div class="stat-num" style="font-size:38px;padding-top:7px;">Single<br>Digit</div>
+        <div class="stat-label">Learner dropout rate after platform launch</div>
+      </div>
+      <div class="stat-item reveal reveal-delay-2">
+        <div class="stat-num">6<span style="font-size:28px">–12</span></div>
+        <div class="stat-label">Month design & delivery cycle, discovery to launch</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- PROBLEM -->
+<section id="problem">
+  <div class="container">
+    <div class="section-eyebrow reveal">
+      <span class="eyebrow-num">01</span>
+      <span class="eyebrow-line"></span>
+      <span class="eyebrow-text">The Problem</span>
+    </div>
+    <h2 class="reveal">A platform that felt like<br><em>a chore</em></h2>
+    <p class="reveal">COBALT was Cognizant's internal platform for developer self-learning and certification assessment. The goal was right — give thousands of developers a way to upskill and get certified at their own pace. But the experience was working against that goal.</p>
+    <p class="reveal">Dropout rates were a persistent, known problem. Learners would start modules and not return. They'd attempt certifications without adequate preparation and fail. The platform treated learning like a compliance task — dry, linear, with no visible sense of progress or reward for effort.</p>
+    <div class="problem-callout reveal">
+      <p>"How do you make something people are expected to do feel like something they want to do — without making it feel trivial?"</p>
+    </div>
+    <p class="reveal">I joined as UX design lead representing Cognizant, coordinating with an external vendor who built and maintained the platform. My job was to translate learner needs and business goals into clear UX direction — and make sure what got built actually served users.</p>
+  </div>
+</section>
+
+<!-- PROCESS -->
+<section id="process" style="background:var(--white); padding: 100px 0;">
+  <div class="container">
+    <div class="section-eyebrow reveal">
+      <span class="eyebrow-num">02</span>
+      <span class="eyebrow-line"></span>
+      <span class="eyebrow-text">Design Process</span>
+    </div>
+    <h2 class="reveal">Five stages,<br><em>one clear thread</em></h2>
+    <p class="reveal">Every stage was oriented around the same question: what does this feel like for the learner?</p>
+    <div class="process-flow reveal">
+      <div class="process-step">
+        <div class="process-circle">🔍</div>
+        <div class="process-step-title">Platform Audit</div>
+        <div class="process-step-desc">Reviewed existing UX end-to-end, mapped dropout points using completion data</div>
+      </div>
+      <div class="process-step">
+        <div class="process-circle">🤝</div>
+        <div class="process-step-title">Stakeholder Alignment</div>
+        <div class="process-step-desc">Aligned L&D leads and senior sponsors on UX approach before designing</div>
+      </div>
+      <div class="process-step">
+        <div class="process-circle active">🎮</div>
+        <div class="process-step-title">Gamification Design</div>
+        <div class="process-step-desc">Designed XP, badges, leaderboards tied to meaningful learning milestones</div>
+      </div>
+      <div class="process-step">
+        <div class="process-circle">🔧</div>
+        <div class="process-step-title">Vendor Delivery</div>
+        <div class="process-step-desc">Wireframes + syncs to maintain design intent through external build</div>
+      </div>
+      <div class="process-step">
+        <div class="process-circle">📈</div>
+        <div class="process-step-title">Live Iteration</div>
+        <div class="process-step-desc">Post-launch data monitoring and iterative UX improvements</div>
+      </div>
+    </div>
+    <div class="note-bar reveal">
+      <span class="note-icon">💡</span>
+      <p class="note-text"><strong>Stakeholder alignment early saved design effort later.</strong> Having L&D leads and sponsors bought in on the gamification approach before I started designing meant I wasn't defending decisions mid-project — I was executing on a shared vision.</p>
+    </div>
+  </div>
+</section>
+
+<!-- GAMIFICATION -->
+<section id="gamification">
+  <div class="container">
+    <div class="section-eyebrow reveal">
+      <span class="eyebrow-num">03</span>
+      <span class="eyebrow-line"></span>
+      <span class="eyebrow-text">The Design</span>
+    </div>
+    <h2 class="reveal">Gamification that<br><em>earns its keep</em></h2>
+    <p class="reveal">The core design principle: every gamification element had to map to a real motivation gap — not just make the platform look playful. Badges that reward trivial actions erode trust. Rewards had to feel earned.</p>
+
+    <div class="section-split" style="margin-top:48px;">
+      <div class="reveal">
+        <div class="sketch-area">
+          <div class="sketch-label">↑ Early sketch thinking</div>
+          <div class="sketch-inner">
+            <div style="font-size:11px;color:var(--ink-lt);font-style:italic;margin-bottom:8px;">Replace this placeholder with a photo of your actual sketch</div>
+            <div class="sketch-row">
+              <div class="sketch-box">Complete<br>Module</div>
+              <div class="sketch-arrow">→</div>
+              <div class="sketch-box">+XP<br>Awarded</div>
+              <div class="sketch-arrow">→</div>
+              <div class="sketch-box">Level<br>Up?</div>
+            </div>
+            <div class="sketch-note">Immediate feedback loop — learner sees progress right away</div>
+            <div class="sketch-row" style="margin-top:12px;">
+              <div class="sketch-box">Hit<br>Milestone</div>
+              <div class="sketch-arrow">→</div>
+              <div class="sketch-box">Badge<br>Unlocked</div>
+            </div>
+            <div class="sketch-note">Badge = recognition for something meaningful, not just activity</div>
+            <div style="margin-top:16px;padding:12px;background:rgba(26,95,122,0.06);border-radius:4px;">
+              <div style="font-size:10px;font-weight:600;color:var(--teal);text-transform:uppercase;letter-spacing:.08em;margin-bottom:6px;">Key question from sketch</div>
+              <div style="font-size:12px;color:var(--ink-mid);font-style:italic;">"How many badges before they stop feeling special?"</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="reveal reveal-delay-1">
+        <ul class="annotation-list">
+          <li class="annotation-item">
+            <div class="annotation-icon">⚡</div>
+            <div class="annotation-body">
+              <div class="annotation-title">XP & Points System</div>
+              <p class="annotation-desc">Tied directly to learning actions — completing modules, scoring well, returning consistently. Made invisible progress visible and gave learners a reason to open the platform tomorrow.</p>
+            </div>
+          </li>
+          <li class="annotation-item">
+            <div class="annotation-icon">🏅</div>
+            <div class="annotation-body">
+              <div class="annotation-title">Badges & Achievements</div>
+              <p class="annotation-desc">Deliberately restrained — badges only at meaningful milestones. Too many badges and they lose meaning entirely. Each one had to feel worth displaying.</p>
+            </div>
+          </li>
+          <li class="annotation-item">
+            <div class="annotation-icon">📊</div>
+            <div class="annotation-body">
+              <div class="annotation-title">Leaderboards</div>
+              <p class="annotation-desc">Designed to encourage comparison with your own previous performance as much as against peers — social visibility without making it purely competitive or demotivating for newer learners.</p>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- VENDOR -->
+<section id="vendor" class="vendor-bg">
+  <div class="container">
+    <div class="section-eyebrow reveal">
+      <span class="eyebrow-num">04</span>
+      <span class="eyebrow-line"></span>
+      <span class="eyebrow-text">The Vendor Challenge</span>
+    </div>
+    <h2 class="reveal" style="color:var(--white);">Design intent that<br><em>survives translation</em></h2>
+    <p class="reveal">The external vendor built and shipped the platform — I wasn't writing code or pushing designs directly into production. The challenge was making UX intent so clear it survived handoff.</p>
+
+    <div class="vendor-flow reveal">
+      <div class="vendor-node">
+        <div class="vendor-node-icon">🎨</div>
+        <div class="vendor-node-title">UX Design</div>
+        <div class="vendor-node-sub">Annotated wireframes with intent, not just layout</div>
+      </div>
+      <div class="vendor-arrow">
+        <div>→</div>
+        <div class="vendor-arrow-label">Wireframes</div>
+      </div>
+      <div class="vendor-node">
+        <div class="vendor-node-icon">🔄</div>
+        <div class="vendor-node-title">Review Syncs</div>
+        <div class="vendor-node-sub">Regular calls to review implementation vs. design decisions</div>
+      </div>
+      <div class="vendor-arrow">
+        <div>→</div>
+        <div class="vendor-arrow-label">Feedback</div>
+      </div>
+      <div class="vendor-node">
+        <div class="vendor-node-icon">🏗️</div>
+        <div class="vendor-node-title">Vendor Build</div>
+        <div class="vendor-node-sub">External team building and maintaining the platform</div>
+      </div>
+      <div class="vendor-arrow">
+        <div>→</div>
+        <div class="vendor-arrow-label">Shipped</div>
+      </div>
+      <div class="vendor-node">
+        <div class="vendor-node-icon">👥</div>
+        <div class="vendor-node-title">Learners</div>
+        <div class="vendor-node-sub">Experience that matched the original UX intent</div>
+      </div>
+    </div>
+
+    <div class="vendor-principles reveal">
+      <div class="vendor-principle">
+        <div class="vp-num">01</div>
+        <div class="vp-title">Intent over instruction</div>
+        <p class="vp-desc">Wireframes were annotated with why each decision mattered — not just what to build. This meant the vendor could make informed decisions when edge cases arose.</p>
+      </div>
+      <div class="vendor-principle">
+        <div class="vp-num">02</div>
+        <div class="vp-title">Push back with rationale</div>
+        <p class="vp-desc">When implementation drifted from the intended experience, I'd push back with a clear user-centred reason rather than a personal preference. That built trust.</p>
+      </div>
+      <div class="vendor-principle">
+        <div class="vp-num">03</div>
+        <div class="vp-title">Make them collaborators</div>
+        <p class="vp-desc">When the vendor understood why a decision mattered, they became genuine partners — not just executors. Quality went up significantly as a result.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- OUTCOME -->
+<section id="outcome" style="background:var(--cream);">
+  <div class="container">
+    <div class="section-eyebrow reveal">
+      <span class="eyebrow-num">05</span>
+      <span class="eyebrow-line"></span>
+      <span class="eyebrow-text">Outcome & Reflection</span>
+    </div>
+    <h2 class="reveal">Results that came from<br><em>continuous iteration</em></h2>
+    <p class="reveal">The improvements didn't happen overnight. They were the result of staying involved post-launch, reading completion data, and feeding observations back into the design — month after month.</p>
+
+    <div class="outcome-grid">
+      <div class="outcome-metrics reveal">
+        <div class="outcome-metric">
+          <div class="om-num">30%</div>
+          <div class="om-label">Improvement in first-time certification pass rates in the first year</div>
+        </div>
+        <div class="outcome-metric">
+          <div class="om-num" style="font-size:28px;padding-top:6px;">Single<br>digit</div>
+          <div class="om-label">Learner dropout rate — down from a persistent, known problem pre-launch</div>
+        </div>
+      </div>
+      <div class="reveal reveal-delay-1">
+        <ul class="reflection-list">
+          <li class="reflection-item">
+            <div class="r-bullet"></div>
+            <div class="r-text">Making mandatory learning feel voluntary is one of the hardest UX problems. The answer wasn't to disguise the obligation — it was to give learners genuine agency within it.</div>
+          </li>
+          <li class="reflection-item">
+            <div class="r-bullet"></div>
+            <div class="r-text">Gamification only works when it's tied to real behaviour. Every element had to map to something meaningful in the learning journey.</div>
+          </li>
+          <li class="reflection-item">
+            <div class="r-bullet"></div>
+            <div class="r-text">Vendor coordination requires clarity of intent, not just clarity of design. Annotated wireframes matter — but so does the relationship.</div>
+          </li>
+          <li class="reflection-item">
+            <div class="r-bullet"></div>
+            <div class="r-text">Align stakeholders before designing. When L&D leads and sponsors are bought in early, you're executing a shared vision — not defending decisions mid-project.</div>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- NEXT PROJECT -->
+<div class="next-section">
+  <div class="next-label">Next Case Study</div>
+  <div class="next-title">Data-Driven Design on<br><em>Live Facebook Games</em></div>
+  <a href="#" class="btn">View Zynga Case Study →</a>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-name">Ravi Krishna S</div>
+  <div class="footer-links">
+    <a href="mailto:ravikrsh@gmail.com">ravikrsh@gmail.com</a>
+    <a href="#">Portfolio</a>
+    <a href="#">LinkedIn</a>
+  </div>
+</footer>
+
+<script>
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) { e.target.classList.add('visible'); }
+    });
+  }, { threshold: 0.12 });
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
