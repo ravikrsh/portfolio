@@ -45,7 +45,18 @@
   .nav-logo {
     font-family: 'DM Serif Display', serif;
     font-size: 18px; color: var(--teal); letter-spacing: 0.02em;
+    text-decoration: none;
   }
+  .nav-back {
+    display: flex; align-items: center; gap: 8px;
+    font-size: 12px; font-weight: 500; color: var(--ink-lt);
+    text-decoration: none; letter-spacing: 0.08em; text-transform: uppercase;
+    transition: color 0.2s;
+    border: 1px solid rgba(26,95,122,0.2); padding: 8px 16px;
+  }
+  .nav-back:hover { color: var(--teal); border-color: var(--teal); }
+  .nav-back-arrow { font-size: 16px; transition: transform 0.2s; }
+  .nav-back:hover .nav-back-arrow { transform: translateX(-3px); }
   .nav-links { display: flex; gap: 36px; }
   .nav-links a {
     font-size: 13px; font-weight: 500; color: var(--ink-mid);
@@ -448,13 +459,16 @@
 
 <!-- NAV -->
 <nav>
-  <div class="nav-logo">Ravi Krishna S</div>
+  <a href="index.html" class="nav-logo">Ravi Krishna S</a>
   <div class="nav-links">
     <a href="#problem">Problem</a>
     <a href="#process">Process</a>
     <a href="#gamification">Design</a>
     <a href="#outcome">Outcome</a>
   </div>
+  <a href="index.html" class="nav-back">
+    <span class="nav-back-arrow">&larr;</span> All Work
+  </a>
 </nav>
 
 <!-- HERO -->
@@ -812,19 +826,11 @@
 <footer>
   <div class="footer-name">Ravi Krishna S</div>
   <div class="footer-links">
-    <a href="mailto:ravikrsh@gmail.com">ravikrsh@gmail.com</a>
+    <a href="/cdn-cgi/l/email-protection#a2d0c3d4cbc9d0d1cae2c5cfc3cbce8cc1cdcf"><span class="__cf_email__" data-cfemail="01736077686a73726941666c60686d2f626e6c">[email&#160;protected]</span></a>
     <a href="#">Portfolio</a>
     <a href="#">LinkedIn</a>
   </div>
 </footer>
 
-<script>
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(e => {
-      if (e.isIntersecting) { e.target.classList.add('visible'); }
-    });
-  }, { threshold: 0.12 });
-  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
-</script>
-</body>
-</html>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+  const observer = new IntersectionObserver((entr
