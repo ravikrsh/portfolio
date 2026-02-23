@@ -742,6 +742,29 @@
     <a href="https://www.linkedin.com/in/ravi-krishna-s-211a3ab/" target="_blank">LinkedIn</a>
   </div>
 </footer>
+<script>
+  // Scroll reveal — show elements already in viewport immediately
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.08 });
 
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
-  const observer = new Intersection
+  function revealVisible() {
+    document.querySelectorAll('.reveal').forEach(el => {
+      const rect = el.getBoundingClientRect();
+      if (rect.top < window.innerHeight) {
+        el.style.transition = 'none';
+        el.classList.add('visible');
+        setTimeout(() => { el.style.transition = ''; }, 50);
+      } else {
+        observer.observe(el);
+      }
+    });
+  }
+
+  revealVisible();
+
+  // Handle back/forward navigation
+  window.addEventListener('pageshow', revealVisible);
+</script>
+</body>
+</html>
